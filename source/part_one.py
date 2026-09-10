@@ -14,11 +14,16 @@ def driver():
     categorized_sequences["undetermined"] = [] # strands that can't be determined
     categorized_sequences["dna"] = [] # dna strands
     categorized_sequences["rna"] = [] # rna strands
-
+    #print(categorized_sequences)
     for sequence in all_sequences:
         category = categorize_strand(sequence)
-        categorized_sequences[category].append(sequence)
-
+        if category == "0":
+            categorized_sequences["dna"].append(sequence)
+        elif category == "1":
+            categorized_sequences["rna"].append(sequence)
+        else:
+            categorized_sequences["undetermined"].append(sequence)
+    print(categorized_sequences)
     print("-------------------------")
     print("Encoding sequences for storage...")
     print("-------------------------")
@@ -33,7 +38,7 @@ def driver():
     print("Listing undetermined sequences for review...")
     print("-------------------------")
 
-    for sequence in categorized_sequences[-1]:
+    for sequence in categorized_sequences["undetermined"]:
         print(sequence)
 
 # Returns 0 for DNA (Contains "T" bases)
@@ -65,14 +70,20 @@ def encode_strand(strand):
 
     encoding = []
     count = 1
-
+    
+    
     for index in range(1, len(strand)):
         if strand[index - 1] == strand[index]:
             count += 1
         else:
-            new_entry = strand[index - 1] + count
+            new_entry = strand[index - 1] + str(count)
             encoding.append(new_entry)
             count = 1
+
+        if index == len(strand) - 1:
+          last_entry = strand[index] + str(count)
+          encoding.append(last_entry)
+    
 
     return "".join(encoding)
 
@@ -89,3 +100,6 @@ def decode_strand(encoding):
         strand.extend(next_base)
 
     return "".join(strand)
+
+if __name__ == "__main__":
+    driver()

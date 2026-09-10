@@ -1,3 +1,4 @@
+import source
 from source.part_one import decode_strand, encode_strand
 
 def driver():
@@ -15,6 +16,7 @@ def driver():
 
     for sequence in all_sequences:
         encoded_strand = encode_strand(sequence)
+        print(f"Encoded sequence: {encoded_strand}")
         encoded_sequences.append(encoded_strand)
 
     print("-------------------------")
@@ -48,8 +50,9 @@ def categorize_strand(strand):
     is_t_present = False
     is_u_present = False
 
-    for index in range(0, len(strand) - 1, 4):
+    for index in range(0, len(strand) - 1, 2):
         base = strand[index]
+        print(base)
         if base == "T":
             is_t_present = True
 
@@ -62,3 +65,6 @@ def categorize_strand(strand):
         return -1
 
     return 0 if is_t_present else 1
+
+if __name__ == "__main__":
+    driver()
